@@ -3,7 +3,6 @@ package telegram
 import (
 	"4.space/lib/e"
 	"4.space/storage"
-	"context"
 	"errors"
 	"log"
 	"net/url"
@@ -68,7 +67,7 @@ func (p *Processor) savePage(chatID int, pageURL string, username string) (err e
 func (p *Processor) sendRandom(chatID int, username string) (err error) {
 	defer func() { err = e.WrapIfErr("can't do command: can't send random", err) }()
 
-	page, err := p.storage.PickRandom(context.Background(), username)
+	page, err := p.storage.PickRandom(username)
 	if err != nil && !errors.Is(err, storage.ErrNoSavedPages) {
 		return err
 	}
@@ -80,7 +79,7 @@ func (p *Processor) sendRandom(chatID int, username string) (err error) {
 		return err
 	}
 
-	return p.storage.Remove(context.Background(), page)
+	return p.storage.Remove(page)
 }
 
 func (p *Processor) sendHelp(chatID int) error {
