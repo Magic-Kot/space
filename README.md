@@ -1,1 +1,1 @@
-Описание проекта
+Telegram bot for saving useful links.
